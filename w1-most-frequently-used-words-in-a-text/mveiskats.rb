@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 def each_word(io)
-  io.scan(/[0-9a-zA-Z']+/).each { |word| yield word }
+  io.scan(/[0-9A-Z']+/i).each { |word| yield word }
 end
 
 def top_3_words(input)
