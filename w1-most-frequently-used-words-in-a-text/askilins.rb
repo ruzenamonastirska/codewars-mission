@@ -1,10 +1,10 @@
 # typed: false
 
-ALLOWED_CHARS = (('a'..'z').to_a.concat ('A'..'Z').to_a.concat ["'", "-", " "]).join
+ALLOWED_CHARS = (('a'..'z').to_a.concat ["'", "-", " "]).join
 
 def top_3_words text
   # Only allow accepted chars
-  clean_text = text.chars.reject{|char| !(ALLOWED_CHARS.include? char)}.join
+  clean_text = text.downcase!.chars.reject{|char| !(ALLOWED_CHARS.include? char)}.join
 
   # Get a list of words
   word_list = clean_text.split
