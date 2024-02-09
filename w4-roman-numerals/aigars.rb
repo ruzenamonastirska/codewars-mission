@@ -1,9 +1,9 @@
 class RomanNumerals
-  def to_roman number
+  def self.to_roman number
     convert_to_roman number
   end
 
-  def from_roman string
+  def self.from_roman string
     convert_to_integer string
   end
 end
@@ -50,11 +50,8 @@ def romanize(number, small, mid, high)
   
   return small + mid if number == 4
   return mid if number == 5
+  return small + high if number == 9
 
-  if number == 9
-    return small + high
-  end
-  
   number -= 5
   mid + (small * number)
   end
@@ -64,5 +61,28 @@ def romanize(number, small, mid, high)
 
 
 def convert_to_integer(string)
+  result = 0
+  
+  value = {
+    "M" => 1000,
+    "D" => 500,
+    "C" => 100,
+    "L" => 50,
+    "X" => 10,
+    "V" => 5,
+    "I" => 1,
+  }
 
+  chars = string.chars
+  last = chars.length - 1
+
+  for i in 0..last
+    if i != last
+      value[chars[i]] >= value[chars[i + 1]] ? result += value[chars[i]] : result -= value[chars[i]]
+    else
+      result += value[chars[last]]
+    end
+  end
+
+  result
 end
