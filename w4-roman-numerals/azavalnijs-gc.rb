@@ -30,3 +30,6 @@ def roman_to_int(roman)
 end
 
 p roman_to_int("MDCLXVI") 
+
+# NEXT STOLEN FROM Munto (from Codewars)
+roman.scan(/#{NUMS.keys.join('|')}/).inject(0) { |num, key| num + NUMS[key] }
