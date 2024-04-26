@@ -2,10 +2,10 @@ class User
   attr_reader :rank
   attr_accessor :progress, :valid_ranks
 
-  def initialize(rank = -8, progress = 0)
+  def initialize
     @valid_ranks = [-8, -7, -6, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 6, 7, 8]
-    @rank = rank
-    @progress = progress
+    @rank = -8
+    @progress = 0
   end
 
   def rank=(value)
@@ -47,7 +47,8 @@ end
 test(Ted, 3)
 
 begin
-  User.new(rank: 10)
+  bad_rank_user = Ted.rank = 10
+  puts("\nAssigned bad_rank_user.rank = #{bad_rank_user.rank}!")
 rescue ArgumentError
-  puts("\nInvalid rank defined!")
+  puts("\nInvalid rank defined !")
 end
