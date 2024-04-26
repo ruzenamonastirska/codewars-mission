@@ -1,4 +1,3 @@
-# it must support rank, progress and inc_progress(rank) methods
 class User
   attr_accessor :current_rank, :current_progress, :added_progress
 
@@ -45,11 +44,4 @@ class User
     end
   end
 end
-
-
-user1 = User.new
-user1.rank
-user1.inc_progress(1) # will add 90 progress
-user1.progress # => 0 # progress is now zero
-user1.rank # => -7 # rank was upgraded to -7
 
