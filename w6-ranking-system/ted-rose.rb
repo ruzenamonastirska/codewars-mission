@@ -1,4 +1,5 @@
 class User
+  attr_reader :rank
   attr_accessor :progress, :valid_ranks
 
   def initialize(rank = -8, progress = 0)
@@ -13,7 +14,7 @@ class User
     @rank = value
   end
 
-  def evaluate_rank(user=self)
+  def evaluate_rank(user = self)
     if @progress >= 100
       @progress = [0, @progress - 100].max
       (user.rank = (@rank != -1 ? [8, @rank + 1].min : 1))
@@ -30,22 +31,13 @@ class User
 
     return puts('Progress not increased!') if difference.negative? || (@rank == 8)
 
-    if difference == - 1
-      @progress += 1
-      return evaluate_rank
-    end
-
-    if difference.zero?
-      @progress += 3
-      return evaluate_rank
-    end
-
-    @progress += 10 * (difference**2)
-    evaluate_rank
+    (@progress += 1) && evaluate_rank if difference == -1
+    (@progress += 3) && evaluate_rank if difference.zero?
+    (@progress += 10 * (difference**2)) && evaluate_rank
   end
 end
 
-def test( user, activity_rank)
+def test(user, activity_rank)
   puts("\nactivity_rank = #{activity_rank}\nUser stats after activity accomplished:")
   user.inc_progress(activity_rank)
   puts("player_rank = #{user.rank}", "progress = #{user.progress}")
@@ -58,7 +50,6 @@ Ted.valid_ranks.each do |activity_rank|
 end
 
 test(Ted, 3)
-
 
 begin
   User.new(rank: 10)
