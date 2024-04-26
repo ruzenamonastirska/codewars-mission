@@ -24,16 +24,11 @@ class User
     evaluate_rank if @progress > 99
   end
 
-  def inc_progress(activity_rank)
-    activity_in_positive_scale = 9 + (activity_rank.positive? ? activity_rank - 1 : activity_rank)
-    @rank_in_positive_scale = 9 + (@rank.positive? ? @rank - 1 : @rank)
-    difference = activity_in_positive_scale - @rank_in_positive_scale
-
-    return puts('Progress not increased!') if difference.negative? || (@rank == 8)
-
-    (@progress += 1) && evaluate_rank if difference == -1
-    (@progress += 3) && evaluate_rank if difference.zero?
-    (@progress += 10 * (difference**2)) && evaluate_rank
+  def inc_progress(activity)
+    diff = (activity.positive? ? activity - 1 : activity) - (@rank.positive? ? @rank - 1 : @rank)
+    (@progress += 1) && evaluate_rank if diff == -1 && (@rank != 8)
+    (@progress += 3) && evaluate_rank if diff.zero? && (@rank != 8)
+    (@progress += 10 * (diff**2)) && evaluate_rank && (@rank != 8)
   end
 end
 
