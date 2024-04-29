@@ -7,7 +7,7 @@ class User
     @progress = 0
   end
 
-  def set_or_get_rank(value = nil)
+  def rank(value = nil)
     raise ArgumentError unless @valid_ranks.include?(value) || value.nil?
 
     value.nil? ? @rank : @rank = value
@@ -16,7 +16,7 @@ class User
   def evaluate_rank(user = self)
     if @progress >= 100
       @progress = [0, @progress - 100].max
-      user.set_or_get_rank(@rank != -1 ? [8, @rank + 1].min : 1)
+      user.rank(@rank != -1 ? [8, @rank + 1].min : 1)
     end
     evaluate_rank if @progress > 99 || ((@progress = 0) if @rank == 8)
   end
@@ -32,7 +32,7 @@ end
 def test(user, activity_rank)
   puts("\nactivity_rank = #{activity_rank}\nUser stats after activity accomplished:")
   user.inc_progress(activity_rank)
-  puts("player_rank = #{user.set_or_get_rank}", "progress = #{user.progress}")
+  puts("player_rank = #{user.rank}", "progress = #{user.progress}")
 end
 
 Ted = User.new
@@ -47,8 +47,8 @@ test(Ted, 3)
 
 puts("\n\n-------------------\nTest invalid rank defined:")
 begin
-  bad_rank_user = Ted.set_or_get_rank(10)
-  puts("\nAssigned bad_rank_user.rank = #{bad_rank_user.set_or_get_rank}!")
+  bad_rank_user = Ted.rank(10)
+  puts("\nAssigned bad_rank_user.rank = #{bad_rank_user.rank}!")
 rescue ArgumentError
   puts("\nInvalid rank defined !")
 end
