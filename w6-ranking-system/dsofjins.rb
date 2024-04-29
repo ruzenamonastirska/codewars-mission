@@ -9,7 +9,6 @@ class User
   def inc_progress (puzzle_rank)
     raise ArgumentError unless (1..8).include?(puzzle_rank.abs)
 
-
     if puzzle_rank < self.rank
       diff = puzzle_rank - self.rank
     else
