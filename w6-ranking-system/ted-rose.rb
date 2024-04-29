@@ -1,5 +1,5 @@
 class User
-  attr_accessor :progress, :valid_ranks
+  attr_accessor :progress, :valid_ranks, :rank
 
   def initialize
     @valid_ranks = [-8, -7, -6, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 6, 7, 8]
@@ -7,21 +7,17 @@ class User
     @progress = 0
   end
 
-  def rank(value = nil)
-    raise ArgumentError unless @valid_ranks.include?(value) || value.nil?
-
-    value.nil? ? @rank : @rank = value
-  end
-
   def evaluate_rank(user = self)
     if @progress >= 100
       @progress = [0, @progress - 100].max
-      user.rank(@rank != -1 ? [8, @rank + 1].min : 1)
+      user.rank = (@rank != -1 ? [8, @rank + 1].min : 1)
     end
-    evaluate_rank if @progress > 99 || ((@progress = 0) if @rank == 8)
+    @progress > 99 ? evaluate_rank : (@progress = 0 if @rank == 8)
   end
 
   def inc_progress(activity)
+    raise ArgumentError unless @valid_ranks.include?(activity) || activity.nil?
+
     diff = (activity.positive? ? activity - 1 : activity) - (@rank > 0 ? @rank - 1 : @rank)
     (@progress += 1) && evaluate_rank if diff == -1 && (@rank != 8)
     (@progress += 3) && evaluate_rank if diff.zero? && (@rank != 8)
