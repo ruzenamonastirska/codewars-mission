@@ -1,1 +1,11 @@
-Put your code in the folder corresponding to the challenge and have your name in the file title!S
+# Simple way to commit your code
+Put your code in the folder corresponding to the challenge and have your name in the file title!
+
+# Fork the repo (more complex, but a cooler way)
+1. On this repositories GitHub page click "Fork" in the top right corner:
+![alt text](image.png)
+2. In your forked repository put your code in the folder corresponding to the challenge and have your name in the file title!
+3. Commit your changes in your forked repository
+4. `git push upstream main`
+    - To merge the changes made in your forked repository back into the original repository
+    - NOTE: There might be a conflict, but mostly there shouldn't
