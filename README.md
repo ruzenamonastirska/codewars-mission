@@ -1,7 +1,7 @@
 # Simple way to commit your code
 Put your code in the folder corresponding to the challenge and have your name in the file title!
 
-# Fork the repo (more complex, but a cooler way)
+# Fork the repo (more complex, but a cooler way to commit your code)
 1. On this repositories GitHub page click "Fork" in the top right corner:
 ![alt text](image.png)
 2. In your forked repository put your code in the folder corresponding to the challenge and have your name in the file title!
