@@ -26,15 +26,20 @@ class User
 end
 
 def test(user, activity_rank)
-  puts("\nactivity_rank = #{activity_rank}\nUser stats after activity accomplished:")
-  user.inc_progress(activity_rank)
+  puts("\nUser stats before activity accomplished:")
   puts("player_rank = #{user.rank}", "progress = #{user.progress}")
+  user.inc_progress(activity_rank)
+  puts("User stats after accomplished activity with rank '#{activity_rank}':")
+  puts("player_rank = #{user.rank}", "progress = #{user.progress}")
+  unless ((-8..8).to_a - [0]).include?(user.rank)
+    puts('ERROR: Rank value is not in range -8,-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6,7,8')
+  end
 end
 
 Ted = User.new
 
 puts("-------------------\nTest inc_progress:")
-Ted.valid_ranks.each do |activity_rank|
+((-8..8).to_a - [0]).each do |activity_rank|
   test(Ted, activity_rank)
 end
 
@@ -46,5 +51,9 @@ begin
   bad_rank_user = Ted.rank(10)
   puts("\nAssigned bad_rank_user.rank = #{bad_rank_user.rank}!")
 rescue ArgumentError
-  puts("\nInvalid rank defined !")
+  puts("\nInvalid rank defined!")
 end
+
+puts("\n\n-------------------\nTest major progress increase:")
+from_jun_to_senior = User.new
+test(from_jun_to_senior, 8)
