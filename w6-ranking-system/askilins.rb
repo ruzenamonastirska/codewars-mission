@@ -31,22 +31,20 @@ class User
 
   private
 
-  def rank_up
-    if progress >= RANKUP_PROGRESS
-      @rank += 1
-      @progress -= RANKUP_PROGRESS
-
-      rank_up()
-    end
-  end
-
   def rank_progress(amount)
-    if @rank != ranks.lenght
-      @progress += amount
+    has_enough_progress = @progress >= @RANKUP_PROGRESS
+    is_max_rank = @rank == ranks.lenght
 
-      rank_up()
-    end
+    if not is_max_rank
+      @progress += amount
+    else
       @progress = 0
+    end
+
+    while (not is_max_rank) and has_enough_progress
+      @progress -= @RANKUP_PROGRESS
+      @rank += 1
+    end
   end
 end
 
