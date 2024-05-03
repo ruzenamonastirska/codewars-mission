@@ -3,7 +3,7 @@ class User
   attr_reader :ranks, :progress
 
   def initialize
-    @ranks = [(-8..-1).to_a, (1..8).to_a]
+    @ranks = [*(-8..-1).to_a, *(1..8).to_a]
     @rank = 0
     @progress = 0
     @RANKUP_PROGRESS = 100
@@ -14,7 +14,7 @@ class User
   end
 
   def inc_progress(activity_rank)
-    raise InvalidRankError unless ranks.include?(activity_rank)
+    raise InvalidRankError unless @ranks.include?(activity_rank)
       
     if ranks.index(activity_rank) == @rank
       rank_progress(3)
@@ -33,7 +33,7 @@ class User
 
   def rank_progress(amount)
     has_enough_progress = @progress >= @RANKUP_PROGRESS
-    is_max_rank = @rank == ranks.lenght
+    is_max_rank = @rank == ranks.length
 
     if not is_max_rank
       @progress += amount
@@ -50,5 +50,3 @@ end
 
 
 class InvalidRankError < Exception; end
-
-puts User.new.ranks
