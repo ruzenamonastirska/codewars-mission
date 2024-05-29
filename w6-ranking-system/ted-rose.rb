@@ -12,13 +12,15 @@ class User
       @progress = [0, @progress - 100].max
       user.rank = (@rank != -1 ? [8, @rank + 1].min : 1)
     end
+    # Bad to assign values following "?" evaluation if assignment is complex
     @progress > 99 ? evaluate_rank : (@progress = 0 if @rank == 8)
+    
   end
 
   def inc_progress(activity)
     raise ArgumentError unless @valid_ranks.include?(activity) || activity.nil?
 
-    diff = (activity.positive? ? activity - 1 : activity) - (@rank > 0 ? @rank - 1 : @rank)
+    diff = (activity.positive? ? activity - 1 : activity) - (@rank.positive? ? @rank - 1 : @rank)
     (@progress += 1) && evaluate_rank if diff == -1 && (@rank != 8)
     (@progress += 3) && evaluate_rank if diff.zero? && (@rank != 8)
     (@progress += 10 * (diff**2)) && evaluate_rank && (@rank != 8) if diff > -1
