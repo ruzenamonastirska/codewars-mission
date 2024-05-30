@@ -9,3 +9,12 @@ Put your code in the folder corresponding to the challenge and have your name in
 4. `git push upstream main`
     - To merge the changes made in your forked repository back into the original repository
     - NOTE: There might be a conflict, but mostly there shouldn't
+
+## Updating original repository with your changes
+1. `git fetch upstream`
+2. `git checkout main`
+3. `git merge upstream/main`
+4. Fix merge conflicts
+5. Commit all your changes to your forked repository
+6. `git push upstream main`
+   - To merge the changes made in your forked repository back into the original repository
