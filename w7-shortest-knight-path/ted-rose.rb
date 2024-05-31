@@ -2,11 +2,11 @@ POSSIBLE_MOVES = {
   'up_left' => [-1, 2],
   'up_right' => [1, 2],
   'right_up' => [2, 1],
-  'down_left' => [-1, 2],
-  'down_right' => [1, 2],
   'right_down' => [2, -1],
-  'left_up' => [2, 1],
-  'left_down' => [2, -1],
+  'down_left' => [-1, -2],
+  'down_right' => [1, -2],
+  'left_up' => [-2, 1],
+  'left_down' => [-2, -1],
 }
 
 def move_knight(path, finish)
@@ -75,7 +75,7 @@ def shortest_knight_path(start, finish)
     # possible_paths << possible_paths
     # puts("Got this path from move_knight:\n#{possible_paths.inspect}")
 
-    puts("possible_paths:\n#{possible_paths.inspect}")
+    # puts("possible_paths:\n#{possible_paths.inspect}")
     non_empty_arrays = remove_empty_arrays(possible_paths)
     non_empty_arrays.min_by(&:length)
     puts("Shortest path:\n#{non_empty_arrays.min_by(&:length).inspect}")
