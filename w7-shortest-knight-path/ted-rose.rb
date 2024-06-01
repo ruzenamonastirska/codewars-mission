@@ -8,19 +8,21 @@ POSSIBLE_MOVES = {
   'left_up' => [-2, 1],
   'left_down' => [-2, -1],
 }
+POSSIBLE_PATHS = []
 
 def move_knight(path, finish)
-  possible_paths = []
   current_letter = path[-1][0].ord - 'a'.ord + 1
   current_number = path[-1][1].to_i
   print("current_letter value: ", current_letter, "; ")
-  print("current_number value: ", current_number)
+  print("current_number value: ", current_number, "\n")
 
   POSSIBLE_MOVES.each_value do |letter, number|
+    current_thread_id = Thread.current.object_id
+    puts "Current Thread ID: #{current_thread_id}"
     possible_path = path
     new_letter = current_letter + letter
     new_number = current_number + number
-    print("\npossible_paths:", possible_paths.inspect, "\n")
+    print("\nPOSSIBLE_PATHS:", POSSIBLE_PATHS.inspect, "\n")
     new_position = (new_letter + 'a'.ord - 1).chr + new_number.to_s
     print("new_position: ", new_position, " by adding letter '", letter, "' and '", number, "'\n")
 
@@ -39,7 +41,7 @@ def move_knight(path, finish)
 
     if new_position == finish
       puts("Brought knight home!")
-      possible_paths << possible_path
+      POSSIBLE_PATHS << possible_path
       break
     else
       puts("Looking for more possible_path's")
@@ -47,12 +49,12 @@ def move_knight(path, finish)
 
       unless some_possible_paths == []
         puts("some_possible_paths wasn't empty:", some_possible_paths.inspect)
-        possible_paths << some_possible_paths
+        POSSIBLE_PATHS << some_possible_paths
       end
 
     end
   end
-  possible_paths
+  POSSIBLE_PATHS
 end
 
 def remove_empty_arrays(array)
