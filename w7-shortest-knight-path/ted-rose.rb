@@ -11,53 +11,56 @@ POSSIBLE_MOVES = {
 $shortest_path = []
 
 class ChessMoves
+  attr_accessor :path
   def initialize(path, iteration_depth)
-    @path = path
+    @path = path.dup
     @iteration_depth = iteration_depth + 1
   end
 
   def move_knight()
     puts("\n#{"#" * 170}")
     puts("move_knight called for the #{@iteration_depth} time!")
-    current_letter = @path[-1][0].ord - 'a'.ord + 1
-    current_number = @path[-1][1].to_i
+    print("$shortest_path: ", $shortest_path.inspect, "\n")
+    current_letter = path[-1][0].ord - 'a'.ord + 1
+    current_number = path[-1][1].to_i
     POSSIBLE_MOVES.each_value do |letter, number|
       puts("-------------------------------------------------------------------")
       puts("@iteration_depth: #{@iteration_depth}")
-      current_path = @path
+      # current_path = path
       print('@path.object_id: ')
-      p @path.object_id
+      p path.object_id
+      print("@path: ", @path.inspect, "\n")
       # puts("$shortest_path.length: ", $shortest_path.length)
       # puts("current_path.length: ", current_path.length)
-      if ($shortest_path.length - current_path.length) == 1
-        puts('Brought knight home on the next move!')
+      if (($shortest_path.length - path.length) < 2) && !$shortest_path.eql?([])
+        puts("\e[38;5;214mWe won't find a shorter path!\e[0m")
         break
       end
       new_letter = current_letter + letter
       new_number = current_number + number
-      print("$shortest_path: ", $shortest_path.inspect, "\n")
       new_position = (new_letter + 'a'.ord - 1).chr + new_number.to_s
       print('new_position: ', new_position, " by adding letter '", letter, "' and '", number, "'\n")
 
       if !new_letter.positive? or new_letter > 8 or !new_number.positive? or new_number > 8
-        puts("Can't move outside the board!")
+        puts("\e[31mCan't move outside the board!\e[0m")
         next
       end
 
-      if current_path.include?(new_position)
-        puts("Don't repeat your moves!")
+      if path.include?(new_position)
+        puts("\e[31mDon't repeat your moves!\e[0m")
         next
       end
 
-      current_path << new_position
-      print("current_path: #{current_path.inspect}\n")
+      next_path = path.dup << new_position
+      # next_path << new_position
+      print("next_path: #{next_path.inspect}\n")
 
       if new_position == $THE_FINISH
-        puts('Brought knight home!')
-        return current_path
+        puts("\e[32mBrought knight home!\e[0m")
+        return next_path
       else
         puts("Looking for more possible path's")
-        chess_moves = ChessMoves.new(current_path, @iteration_depth)
+        chess_moves = ChessMoves.new(next_path, @iteration_depth)
         print('chess_moves.object_id: ')
         p chess_moves.object_id
         current_shortest_path = chess_moves.move_knight
@@ -89,21 +92,16 @@ def remove_empty_arrays(array)
   end
 end
 
-def shortest_knight_path(start, finish)
+def knight(start, finish)
     single_square_path = [start]
     $THE_FINISH = finish
     current_iteration_depth = 0
     chess_moves = ChessMoves.new(single_square_path, current_iteration_depth)
     print('chess_moves.object_id: ')
     p chess_moves.object_id
-    possible_paths = chess_moves.move_knight()
-    # possible_paths << possible_paths
-    # puts("Got this path from move_knight:\n#{possible_paths.inspect}")
+    the_shortest_path = chess_moves.move_knight()
 
-    # puts("possible_paths:\n#{possible_paths.inspect}")
-    non_empty_arrays = remove_empty_arrays(possible_paths)
-    non_empty_arrays.min_by(&:length)
-    puts("Shortest path:\n#{non_empty_arrays.min_by(&:length).inspect}")
+    puts("the_shortest_path:\n#{the_shortest_path.inspect}")
 
 end
-shortest_knight_path('a3', 'c7')
+knight('a3', 'h7')
