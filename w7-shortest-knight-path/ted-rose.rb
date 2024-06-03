@@ -18,20 +18,14 @@ class ChessMoves
   end
 
   def move_knight()
-    puts("\n#{"#" * 170}")
-    puts("move_knight called for the #{@iteration_depth} time!")
-    print("$shortest_path: ", $shortest_path.inspect, "\n")
     current_letter = path[-1][0].ord - 'a'.ord + 1
     current_number = path[-1][1].to_i
     POSSIBLE_MOVES.each_value do |letter, number|
       puts("-------------------------------------------------------------------")
       puts("@iteration_depth: #{@iteration_depth}")
-      # current_path = path
       print('@path.object_id: ')
       p path.object_id
       print("@path: ", @path.inspect, "\n")
-      # puts("$shortest_path.length: ", $shortest_path.length)
-      # puts("current_path.length: ", current_path.length)
       if (($shortest_path.length - path.length) < 2) && !$shortest_path.eql?([])
         puts("\e[38;5;214mWe won't find a shorter path!\e[0m")
         break
@@ -52,7 +46,6 @@ class ChessMoves
       end
 
       next_path = path.dup << new_position
-      # next_path << new_position
       print("next_path: #{next_path.inspect}\n")
 
       if new_position == $THE_FINISH
@@ -81,17 +74,6 @@ class ChessMoves
   end
 end
 
-def remove_empty_arrays(array)
-  array.each_with_object([]) do |element, result|
-    if element.is_a?(Array)
-      cleaned_element = remove_empty_arrays(element)
-      result << cleaned_element unless cleaned_element.empty?
-    else
-      result << element
-    end
-  end
-end
-
 def knight(start, finish)
     single_square_path = [start]
     $THE_FINISH = finish
@@ -102,6 +84,5 @@ def knight(start, finish)
     the_shortest_path = chess_moves.move_knight()
 
     puts("the_shortest_path:\n#{the_shortest_path.inspect}")
-
 end
 knight('a3', 'h7')
