@@ -8,7 +8,6 @@ POSSIBLE_MOVES = {
   'left_up' => [-2, 1],
   'left_down' => [-2, -1],
 }
-$shortest_path = []
 
 class ChessMoves
   attr_accessor :path
@@ -64,10 +63,7 @@ class ChessMoves
             puts('Found a shorter path!')
             $shortest_path = current_shortest_path
           end
-
         end
-
-
       end
     end
     $shortest_path
@@ -75,8 +71,9 @@ class ChessMoves
 end
 
 def knight(start, finish)
+    $shortest_path = []
     single_square_path = [start]
-    $THE_FINISH = finish
+    $THE_FINISH = finish.dup
     current_iteration_depth = 0
     chess_moves = ChessMoves.new(single_square_path, current_iteration_depth)
     print('chess_moves.object_id: ')
@@ -84,5 +81,21 @@ def knight(start, finish)
     the_shortest_path = chess_moves.move_knight()
 
     puts("the_shortest_path:\n#{the_shortest_path.inspect}")
+    steps = the_shortest_path.length - 1
 end
-knight('a3', 'h7')
+
+def codewars_test
+  arr = [
+    # ['a1', 'c1', 2],
+    # ['a1', 'f1', 3],
+    # ['a1', 'f3', 3],
+    # ['a1', 'f4', 4],
+    ['a1', 'f7', 5]
+  ]
+
+  arr.each do |start, finish, expected_steps|
+    knight(start, finish).eql? expected_steps
+  end
+end
+
+codewars_test
