@@ -17,24 +17,25 @@ class ChessMoves
   end
 
   def move_knight()
+    puts("\n#{"#" * 170}")
+    puts("move_knight called for the #{@iteration_depth} time!")
     current_letter = @path[-1][0].ord - 'a'.ord + 1
     current_number = @path[-1][1].to_i
-    print('current_letter value: ', current_letter, '; ')
-    print('current_number value: ', current_number, "\n")
     POSSIBLE_MOVES.each_value do |letter, number|
-      puts("\n@iteration_depth: #{@iteration_depth}")
+      puts("-------------------------------------------------------------------")
+      puts("@iteration_depth: #{@iteration_depth}")
       current_path = @path
-      print('p @path.object_id: ')
+      print('@path.object_id: ')
       p @path.object_id
-      puts("$shortest_path.length: ", $shortest_path.length)
-      puts("current_path.length: ", current_path.length)
+      # puts("$shortest_path.length: ", $shortest_path.length)
+      # puts("current_path.length: ", current_path.length)
       if ($shortest_path.length - current_path.length) == 1
         puts('Brought knight home on the next move!')
         break
       end
       new_letter = current_letter + letter
       new_number = current_number + number
-      print("$shortest_path:", $shortest_path.inspect, "\n")
+      print("$shortest_path: ", $shortest_path.inspect, "\n")
       new_position = (new_letter + 'a'.ord - 1).chr + new_number.to_s
       print('new_position: ', new_position, " by adding letter '", letter, "' and '", number, "'\n")
 
@@ -55,8 +56,7 @@ class ChessMoves
         puts('Brought knight home!')
         return current_path
       else
-        puts("#################################################")
-        puts("Looking for more possible_path's")
+        puts("Looking for more possible path's")
         chess_moves = ChessMoves.new(current_path, @iteration_depth)
         print('chess_moves.object_id: ')
         p chess_moves.object_id
@@ -94,6 +94,8 @@ def shortest_knight_path(start, finish)
     $THE_FINISH = finish
     current_iteration_depth = 0
     chess_moves = ChessMoves.new(single_square_path, current_iteration_depth)
+    print('chess_moves.object_id: ')
+    p chess_moves.object_id
     possible_paths = chess_moves.move_knight()
     # possible_paths << possible_paths
     # puts("Got this path from move_knight:\n#{possible_paths.inspect}")
