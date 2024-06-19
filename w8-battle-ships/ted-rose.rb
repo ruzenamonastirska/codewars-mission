@@ -1,27 +1,17 @@
 def find_ships(board)
-  ships = [
-    [],
-    [],
-    [],
-  ]
-  board_lines = board.length
+  ships = { 1 => [], 2 => [], 3 => [] }
+  board_rows = board.length
   board.each_with_index do |row, row_index|
-    puts("\n\nrow is:", row.inspect)
-    puts("row_index is:", row_index)
     # Row numbering starts from the most bottom line
-    row_number = board_lines - row_index
-
-    row.each_with_index do |ship_number, column_number|
-      puts("\nship_number:", ship_number)
-      if ship_number.zero?
-        puts("No ship on field [#{column_number}, #{row_number}]")
-        next
-      end
-
-      ships[ship_number - 1] << [column_number + 1, row_number]
+    row_number = board_rows - row_index
+    row.each_with_index do |ship_number, column_index|
+      next if ship_number.zero?
+      
+      # Indexing starts from 0 not 1 as column count on the board
+      column_number = column_index + 1
+      ships[ship_number] << [column_number, row_number]
     end
   end
-  puts("ships:", ships.inspect)
   ships
 end
 
@@ -29,7 +19,7 @@ def damaged_or_sunk(board, attacks)
   ships = find_ships(board)
   results = {'sunk' => 0, 'damaged' => 0, 'not_touched' => 0, 'points' => 0 }
 
-  ships.each_with_index do |coordinates, i|
+  ships.each_with_index do |(_, coordinates), _|
     puts("\nShip coordinates:", coordinates.inspect)
     damaged = 0
     next if coordinates.empty?
@@ -68,14 +58,14 @@ def damaged_or_sunk(board, attacks)
 end
 
 
-# # codewars tests
-# board = [ [0, 0, 1, 0],
-#           [0, 0, 1, 0],
-#           [0, 0, 1, 0] ]
-#
-# attacks = [[3, 1], [3, 2], [3, 3]];
-# result = damaged_or_sunk(board, attacks)
-# puts"Game 1 result: { 'sunk': 1, 'damaged': 0 , 'not_touched': 0, 'points': 1}\n\n"
+# codewars tests
+board = [ [0, 0, 1, 0],
+          [0, 0, 1, 0],
+          [0, 0, 1, 0] ]
+
+attacks = [[3, 1], [3, 2], [3, 3]];
+result = damaged_or_sunk(board, attacks)
+puts"Game 1 result: { 'sunk': 1, 'damaged': 0 , 'not_touched': 0, 'points': 1}\n\n"
 
 board = [ [3, 0, 1],
           [3, 0, 1],
