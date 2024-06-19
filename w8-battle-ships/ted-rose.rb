@@ -20,43 +20,29 @@ def damaged_or_sunk(board, attacks)
   results = {'sunk' => 0, 'damaged' => 0, 'not_touched' => 0, 'points' => 0 }
 
   ships.each_with_index do |(_, coordinates), _|
-    puts("\nShip coordinates:", coordinates.inspect)
-    damaged = 0
+    damaged = false
     next if coordinates.empty?
-    not_touched = 0
 
     attacks.each do |attack|
       next unless coordinates.include?(attack)
 
       coordinates.delete(attack)
-      puts("Deleted coordinates")
-      damaged = 0.5
-      puts("damaged: #{damaged}")
+      damaged = true
     end
-    puts("coordinates aftert deleting:", coordinates.inspect)
 
     if coordinates.empty?
-      puts("Points because empty")
       results['sunk'] += 1
       results['points'] += 1
-    elsif damaged.nonzero?
-      puts("Points because not empty")
+    elsif damaged
       results['damaged'] += 1
-      results['points'] += damaged
-    elsif damaged.zero?
-      not_touched = 1
+      results['points'] += 0.5
+    elsif !damaged
+      results['not_touched'] += 1
       results['points'] += - 1
-
-    puts("damaged at end: #{damaged}")
-    puts("not_touched: #{not_touched}")
-    results['not_touched'] += not_touched
-
     end
   end
-  puts("results", results)
   results
 end
-
 
 # codewars tests
 board = [ [0, 0, 1, 0],
